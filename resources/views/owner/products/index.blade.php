@@ -12,7 +12,7 @@
                     <x-flash-message status="session('status')" />
                     <div class="flex justify-end mb-4">
                         <button
-                            onclick ="location.href='{{ route('owner.products.create') }}'"class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">新規登録する</button>
+                            onclick ="location.href='{{ route('owner.products.create') }}'"class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">新規登録</button>
                     </div>
                     <div class="flex flex-wrap">
                         @foreach ($ownerInfo as $owner )
