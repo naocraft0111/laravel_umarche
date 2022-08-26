@@ -68,16 +68,20 @@ class CartController extends Controller
                 return view('user.cart.index');
             } else {
                 $lineItem = [
-                    'name' => $product->name,
-                    'description' => $product->information,
-                    'amount' => $product->price,
-                    'currency' => 'jpy',
+                    'price_data' => [
+                        'currency' => 'jpy',
+                        'unit_amount' => $product->price,
+                        'product_data' => [
+                            'name' => $product->name,
+                            'description' => $product->information,
+                        ],
+                    ],
                     'quantity' => $product->pivot->quantity,
                 ];
                 array_push($lineItems, $lineItem);
             }
         }
-        // dd($lineItems);
+
         foreach ($products as $product) {
             Stock::create([
                 'product_id' => $product->id,
@@ -86,7 +90,7 @@ class CartController extends Controller
             ]);
         }
 
-        dd('test');
+
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
         $session = \Stripe\Checkout\Session::create([
@@ -99,6 +103,7 @@ class CartController extends Controller
 
         $publicKey = env('STRIPE_PUBLIC_KEY');
 
+        // dd($lineItems);
         return view('user.checkout',
             compact('session', 'publicKey'));
     }
