@@ -16,7 +16,7 @@
                                 <!-- Additional required wrapper -->
                                 <div class="swiper-wrapper">
                                 <!-- Slides -->
-                                    <div class="swiper-slide">
+                                    <div class="swiper-slide">　
                                         @if (isset($product->imageFirst->filename))
                                             <img src="{{ asset('storage/products/' . $product->imageFirst->filename)}}">
                                         @else
