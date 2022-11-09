@@ -16,29 +16,29 @@
                                 <!-- Additional required wrapper -->
                                 <div class="swiper-wrapper">
                                 <!-- Slides -->
-                                    <div class="swiper-slide">
-                                        @if ($product->imageFirst->filename !== null)
+                                    <div class="swiper-slide">　
+                                        @if (isset($product->imageFirst->filename))
                                             <img src="{{ asset('storage/products/' . $product->imageFirst->filename)}}">
                                         @else
                                             <img src="">
                                         @endif
                                     </div>
                                     <div class="swiper-slide">
-                                        @if ($product->imageSecond->filename !== null)
+                                        @if (isset($product->imageSecond->filename))
                                             <img src="{{ asset('storage/products/' . $product->imageSecond->filename)}}">
                                         @else
                                             <img src="">
                                         @endif
                                     </div>
                                     <div class="swiper-slide">
-                                        @if ($product->imageThird->filename !== null)
+                                        @if (isset($product->imageThird->filename))
                                             <img src="{{ asset('storage/products/' . $product->imageThird->filename)}}">
                                         @else
                                             <img src="">
                                         @endif
                                     </div>
                                     <div class="swiper-slide">
-                                        @if ($product->imageFourth->filename !== null)
+                                        @if (isset($product->imageFourth->filename))
                                             <img src="{{ asset('storage/products/' . $product->imageFourth->filename)}}">
                                         @else
                                             <img src="">
