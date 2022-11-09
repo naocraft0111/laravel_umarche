@@ -70,7 +70,9 @@ class OwnersController extends Controller
         ]);
 
         try{
+            // transaction内で$requestを使う場合useに入れないといけない
             DB::transaction(function () use($request) {
+                // Shopの外部キー向けにidを取得するために変数に入れる
                 $owner = Owner::create([
                     'name' => $request->name,
                     'email' => $request->email,
@@ -157,12 +159,16 @@ class OwnersController extends Controller
         'status' => 'alert']);
     }
 
+    // ソフトデリートしたユーザーを取得、表示
     public function expiredOwnerIndex(){
+        // onlyTrashed()でソフトデリートしたユーザーを取得（deleted_atが含まれているユーザー)
         $expiredOwners = Owner::onlyTrashed()->get();
         return view('admin.expired-owners',compact('expiredOwners'));
     }
 
+    // 物理削除する
     public function expiredOwnerDestroy($id){
+        // forceDelete()で完全に削除する
         Owner::onlyTrashed()->findOrFail($id)->forceDelete();
         return redirect()->route('admin.expired-owners.index');
     }

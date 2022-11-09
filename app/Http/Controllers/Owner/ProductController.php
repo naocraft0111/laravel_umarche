@@ -35,8 +35,12 @@ class ProductController extends Controller
 
     public function index()
     {
+        // ログインしているオーナーが作ったプロダクトを全て取得できる（これでは N + 1 問題が発生する）
         // $products = Owner::findOrFail(Auth::id())->shop->product;
 
+        // N + 1 問題解消のため Eagerロードを使う モデル::withで使える
+        // リレーションのリレーションは「ドット」構文が使える shop.product.image
+        // ログインしているidがチェックして、取得する
         $ownerInfo = Owner::with('shop.product.imageFirst')
         ->where('id', Auth::id())->get();
 
@@ -68,6 +72,7 @@ class ProductController extends Controller
         ->orderBy('updated_at', 'desc')
         ->get();
 
+        // リレーション先のデータを取得するのにN + 1 問題が発生するのでEagerローディングで回避
         $categories = PrimaryCategory::with('secondary')
         ->get();
 
@@ -151,6 +156,7 @@ class ProductController extends Controller
         $quantity = Stock::where('product_id', $product->id)
         ->sum('quantity');
 
+        // リクエストからの在庫数と現在の在庫数が等しくないとき
         if($request->current_quantity !== $quantity){
             $id = $request->route()->parameter('product');
             return redirect()->route('owner.products.edit', ['product' => $id])

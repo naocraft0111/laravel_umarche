@@ -19,6 +19,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
+            // URLによって条件分岐 owner.*だったらowner.loginに飛ぶ
             if(Route::is('owner.*')){
                 return route($this->owner_route);
             } elseif(Route::is('admin.*')){

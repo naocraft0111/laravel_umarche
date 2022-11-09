@@ -59,6 +59,7 @@ class ImageController extends Controller
      */
     public function store(UploadImageRequest $request)
     {
+        // 配列でファイルを取得
         $imageFiles = $request->file('files');
         if(!is_null($imageFiles)){
             foreach($imageFiles as $imageFile){
@@ -103,12 +104,14 @@ class ImageController extends Controller
     {
         $image = Image::findOrFail($id);
 
+        // 削除したい画像をProductで使っているかの確認
         $imageInProducts = Product::where('image1', $image->id)
         ->orWhere('image2', $image->id)
         ->orWhere('image3', $image->id)
         ->orWhere('image4', $image->id)
         ->get();
 
+        // 使っていたらimage1～image4をチェックして null に変更
         if($imageInProducts){
             $imageInProducts->each(function($product) use($image){
                 if($product->image1 === $image->id){
@@ -132,7 +135,7 @@ class ImageController extends Controller
 
         $filePath = 'public/products/' . $image->filename;
 
-
+        // ファイルが存在するかどうか
         if(Storage::exists($filePath)){
             Storage::delete($filePath);
         }

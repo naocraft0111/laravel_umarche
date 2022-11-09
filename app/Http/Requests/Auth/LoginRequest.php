@@ -52,7 +52,7 @@ class LoginRequest extends FormRequest
         } else {
             $guard = 'users';
         }
-
+        // User,Owner,Adminをguardで判定してそれぞれのemail,passwordを比較し、認証する
         if (! Auth::guard($guard)->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 

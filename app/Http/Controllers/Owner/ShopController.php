@@ -17,6 +17,7 @@ class ShopController extends Controller
     {
         $this->middleware('auth:owners');
 
+        // ログイン済みオーナーのShopURLでなければ404を表示
         $this->middleware(function ($request, $next) {
             // dd($request->route()->parameter('shop')); //文字列
             // dd(Auth::id()); //数字
@@ -59,6 +60,7 @@ class ShopController extends Controller
         ]);
 
         $imageFile = $request->image;
+        // isValid()はきちんとアップロードできたかを判定するメソッド
         if(!is_null($imageFile) && $imageFile->isValid()) {
             $fileNameToStore = ImageService::upload($imageFile, 'shops');
         }

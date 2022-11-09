@@ -134,15 +134,19 @@
     </div>
     <script>
         'use strict'
+        // 全てのimageタグを取得(select-image.blade.phpのimgタグ)
         const images = document.querySelectorAll('.image')
 
         images.forEach(image => {
             image.addEventListener('click', function(e){
+                // data-idの6文字
                 const imageName= e.target.dataset.id.substr(0, 6)
+                // 6文字カット
                 const imageId = e.target.dataset.id.replace(imageName + '_', '')
                 const imageFile = e.target.dataset.file
                 const imagePath = e.target.dataset.path
                 const modal = e.target.dataset.modal
+                // サムネイルと input type=hiddenのvalueに設定
                 document.getElementById(imageName + '_thumbnail').src = imagePath + '/' + imageFile
                 document.getElementById(imageName + '_hidden').value = imageId
                 // MicroModal.close(modal);

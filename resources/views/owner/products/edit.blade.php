@@ -121,6 +121,7 @@
                                         @foreach ($categories as $category)
                                             <optgroup label="{{ $category->name }}">
                                                 @foreach ($category->secondary as $secondary)
+                                                {{-- 現在選択している項目にselectedをつける --}}
                                                     <option value="{{ $secondary->id }}" @if($secondary->id === $product->secondary_category_id) selected @endif>
                                                         {{ $secondary->name }}
                                                     </option>
@@ -129,6 +130,7 @@
                                     </select>
                                 </div>
                             </div>
+                            {{-- 現在選択している項目をコンポーネントに渡す --}}
                             <x-select-image :images="$images" currentId="{{ $product->image1 }}" currentImage="{{ $product->imageFirst->filename ?? ''}}" name="image1" />
                             <x-select-image :images="$images" currentId="{{ $product->image2 }}" currentImage="{{ $product->imageSecond->filename ?? ''}}" name="image2" />
                             <x-select-image :images="$images" currentId="{{ $product->image3 }}" currentImage="{{ $product->imageThird->filename ?? ''}}" name="image3" />
