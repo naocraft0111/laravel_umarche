@@ -20,6 +20,7 @@ class ItemController extends Controller
 
             $id = $request->route()->parameter('item');
             if(!is_null($id)) {
+                // exists()で入ってきたidが存在していたらtrueを返す
                 $itemId = Product::availableItems()->where('products.id', $id)->exists();
                 if(!$itemId) {
                     abort(404);

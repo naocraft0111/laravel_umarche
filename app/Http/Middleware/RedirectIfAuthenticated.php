@@ -30,6 +30,7 @@ class RedirectIfAuthenticated
         //     }
         // }
 
+        // GUARD_USERとして認証しているかチェックして、リクエストがuser.から始まる者になっているか、そうだったらUSERのホーム画面に遷移する
         if(Auth::guard(self::GUARD_USER)->check() && $request->routeIs('user.*')){
             return redirect(RouteServiceProvider::HOME);
         }

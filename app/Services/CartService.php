@@ -7,9 +7,10 @@ class CartService
 {
     public static function getItemsInCart($items)
     {
-        $products = [];
+        $products = []; // 空の配列を準備
 
-        foreach ($items as $item)
+        // カート情報を元に配列を作成
+        foreach ($items as $item) // カート内の商品を一つずつ処理
         {
             $p = Product::findOrFail($item->product_id);
             $owner = $p->shop->owner->select('name', 'email')->first()->toArray(); // オーナー情報
@@ -25,7 +26,7 @@ class CartService
             $result = array_merge($product[0], $ownerInfo, $quantity[0]); // 配列の結合
             array_push($products, $result); // 配列に追加
         }
-        return $products;
+        return $products; // 新しい配列を返す
 
 
     }

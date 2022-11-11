@@ -72,12 +72,17 @@ class Product extends Model
 
     public function scopeAvailableItems($query)
     {
+        // Stockの合計をグループ化し、数量が1以上
+        // sumを使うためクエリビルダを使う
         $stocks = DB::table('t_stocks')
         ->select('product_id',
         DB::raw('sum(quantity) as quantity'))
         ->groupBy('product_id')
         ->having('quantity', '>', 1);
 
+        // 上記のコードでクエリビルダを使っていたため、joinする必要がある
+        // joinSubで$stocksをstockとして使い、productsとstockとshopテーブルをidでjoinし、categoriesのjoin、imageのjoinをし、shopとproductsのis_sellingがtrueのものをwhere選択し、最後のselect句でそれぞれのカラムをasで別名を当てている（他のテーブルで同名のカラムがあるため）
+        // ローカルスコープなので->get()は書かない
         return $query
         ->joinSub($stocks, 'stock', function($join){
             $join->on('products.id', '=', 'stock.product_id');
@@ -136,7 +141,7 @@ class Product extends Model
             }
 
             return $query;
-            
+
         } else {
             return;
         }
