@@ -131,17 +131,20 @@ class CartController extends Controller
     public function success()
     {
         ////
+        // カートのログインしているユーザーを取得できる
         $items = Cart::where('user_id', Auth::id())->get();
         $products = CartService::getItemsInCart($items);
         $user = User::findOrFail(Auth::id());
 
-
+        // ユーザー向け商品購入メール
         SendThanksMail::dispatch($products, $user);
+        // オーナー向け商品販売メール
         foreach ($products as $product) {
             SendOrderedMail::dispatch($product, $user);
         }
         // dd('ユーザーメール送信テスト');
         ////
+        // カートでログインしているidをwhereで探して、delete()で削除
         Cart::where('user_id', Auth::id())->delete();
 
         return redirect()->route('user.items.index');
@@ -149,8 +152,10 @@ class CartController extends Controller
 
     public function cancel()
     {
+        // ログインしているユーザー
         $user = User::findOrFail(Auth::id());
 
+        // キャンセル時に商品を追加する（元に戻す）
         foreach ($user->products as $product) {
             Stock::create([
                 'product_id' => $product->id,

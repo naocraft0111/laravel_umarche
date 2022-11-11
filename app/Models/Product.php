@@ -82,6 +82,7 @@ class Product extends Model
 
         // 上記のコードでクエリビルダを使っていたため、joinする必要がある
         // joinSubで$stocksをstockとして使い、productsとstockとshopテーブルをidでjoinし、categoriesのjoin、imageのjoinをし、shopとproductsのis_sellingがtrueのものをwhere選択し、最後のselect句でそれぞれのカラムをasで別名を当てている（他のテーブルで同名のカラムがあるため）
+        // ローカルスコープなので->get()は書かない
         return $query
         ->joinSub($stocks, 'stock', function($join){
             $join->on('products.id', '=', 'stock.product_id');

@@ -11,6 +11,7 @@
                             @foreach ($categories as $category)
                                 <optgroup label="{{ $category->name }}">
                                     @foreach ($category->secondary as $secondary)
+                                        {{-- getパラメータは文字列になってsecondary->idは数字で型が違うので、== にする --}}
                                         <option value="{{ $secondary->id }}" @if(\Request::get('category') == $secondary->id) selected @endif>
                                             {{ $secondary->name }}
                                         </option>
@@ -99,6 +100,7 @@
                             </div>
                         @endforeach
                     </div>
+                    {{-- paginationでgetパラメータの引き継ぎ --}}
                     {{ $products->appends([
                         'sort' => \Request::get('sort'),
                         'pagination' => \Request::get('pagination')
